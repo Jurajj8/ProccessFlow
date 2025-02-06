@@ -1,0 +1,56 @@
+.card {
+  border-radius: 10px;
+}
+
+.card-header {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background: #3f51b5;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.img-thumbnail {
+  max-width: 10vw;
+  border-radius: 50%;
+}
+
+.profile-picture {
+  margin-right: 5vw;
+  margin-left: 5vw;
+}
+
+.d-flex {
+  display: flex;
+  align-items: center;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+.form-control{
+    width: 75%;
+}
+
+.card-body .form-group {
+  display: block;
+}
+
+#picture .form-group {
+  display: flex;
+  align-items: center;
+}
+
+.form-group .btn {
+    height: 40px;
+    width: 10%;
+    font-size: medium;
+}
+
+.roles{
+    text-align: center;
+    
+}

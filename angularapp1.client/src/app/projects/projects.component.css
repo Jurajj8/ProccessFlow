@@ -1,0 +1,17 @@
+.list-group{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 80vh;
+}
+
+.list-group .btn {
+    padding: 6px 4px 0px 4px;
+}
+
+.material-icons{
+    font-size: 18px;
+}
+
+h2{
+    margin: 0px;
+}

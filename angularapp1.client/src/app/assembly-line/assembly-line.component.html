@@ -1,0 +1,30 @@
+<div class="container mt-4">
+  <div class="d-flex">
+    <h2 class="mb-4 me-auto">Assembly Lines</h2>
+    <button routerLink="/assemblyLines/add" class="btn btn-primary mb-3">
+      Add AssemblyLine
+    </button>
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item d-flex justify-content-between align-items-center"
+        *ngFor="let assemblyLine of assemblyLines">
+      <span>
+        <strong>{{ assemblyLine.name }}</strong><br />{{ assemblyLine.description }}<br /> {{assemblyLine.projectID}}
+      </span>
+      <span>
+        <button [routerLink]="['/assemblyLines/edit', assemblyLine.lineID]"
+                class="btn btn-sm btn-sm mr-2">
+          Edit
+        </button>
+        <button class="btn btn-sm btn-sm"
+                (click)="
+            assemblyLine.lineID
+              ? deleteAssemblyLine(assemblyLine.lineID)
+              : null
+          ">
+          Delete
+        </button>
+      </span>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,22 @@
+<div class="weather-container">
+  <h2>Weather Forecast</h2>
+  <div *ngIf="weatherData">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Hour</th>
+          <th>Temperature (2m)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let temp of weatherData.hourly.temperature_2m; let i = index">
+          <td>{{ i }}</td>
+          <td>{{ temp }} °C</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="!weatherData">
+    <p>Loading weather data...</p>
+  </div>
+</div>

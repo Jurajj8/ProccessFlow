@@ -1,0 +1,17 @@
+h2 {
+    font-weight: bold;
+    color: #343a40;
+  }
+  
+  .container {
+    max-width: 600px;
+  }
+  
+  .list-group-item span {
+    display: flex;
+    align-items: center;
+  }
+  
+  .list-group-item button {
+    white-space: nowrap;
+  }

@@ -1,0 +1,31 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Edit Assembly Line</h2>
+  <form *ngIf="assemblyLine" (ngSubmit)="updateAssemblyLine()" class="needs-validation">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text"
+             [(ngModel)]="assemblyLine.name"
+             name="name"
+             id="name"
+             class="form-control"
+             required />
+    </div>
+    <div class="form-group">
+      <label for="description" class="form-label">Description:</label>
+      <input type="text"
+             [(ngModel)]="assemblyLine.description"
+             name="description"
+             id="description"
+             class="form-control"
+             required />
+    </div>
+    <div class="d-flex justify-content-center">
+      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="button"
+              class="btn btn-secondary ms-2"
+              (click)="router.navigate(['/projects/${assemblyLine.projectID}'])">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

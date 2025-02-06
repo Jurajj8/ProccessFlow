@@ -1,0 +1,26 @@
+form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+.mat-mdc-form-field {
+    width: 25%;
+}
+
+.center{
+    text-align: center;
+}
+
+.buttons-container{
+    display: inline-flex;
+    justify-content: space-around;
+}
+
+.error-message{
+    text-align: center;
+    color: red;
+    margin-bottom: 15px;
+}

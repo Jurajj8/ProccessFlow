@@ -1,0 +1,39 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Edit Project</h2>
+  <div *ngIf="project">
+    <form (ngSubmit)="updateProject()" class="needs-validation">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text"
+               [(ngModel)]="project.name"
+               name="name"
+               id="name"
+               class="form-control"
+               required />
+      </div>
+      <div class="form-group">
+        <label for="type">Type:</label>
+        <input type="text"
+               [(ngModel)]="project.description"
+               name="type"
+               id="type"
+               class="form-control"
+               required />
+      </div>
+      <div class="form-group">
+        <label for="status">Status:</label>
+        <select id="status" class="form-control" [(ngModel)]="project.status" name="status" required>
+          <option *ngFor="let statusType of statusTypes" [ngValue]="statusType">{{ getEnumName(statusType) }}</option>
+        </select>
+      </div>
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button"
+                class="btn btn-secondary ms-2"
+                (click)="router.navigate(['/projects'])">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

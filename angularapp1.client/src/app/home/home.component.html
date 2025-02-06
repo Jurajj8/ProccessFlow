@@ -1,0 +1,24 @@
+<div>
+  <div class="title">
+    <span>Projects</span>
+  </div>
+  <div class="project-container">
+    <div *ngFor="let project of projects">
+      <a [routerLink]="['/projects', project.projectID]">
+        <mat-card class="project-card" appearance="outlined">
+          <mat-card-header>
+            <mat-card-title>{{ project.name }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{ project.description }}</p>
+          </mat-card-content>
+          <mat-card-footer class="project-card-footer">
+            <div class="status-badge">
+              {{ getEnumName(project.status) }}
+            </div>
+          </mat-card-footer>
+        </mat-card>
+      </a>
+    </div>
+  </div>
+</div>

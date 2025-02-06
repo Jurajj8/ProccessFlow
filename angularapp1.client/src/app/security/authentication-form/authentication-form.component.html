@@ -1,0 +1,32 @@
+<div class="center">
+  <h2>{{title}}</h2>
+</div>
+<form (submit)="saveChanges()" [formGroup]="form">
+  <mat-form-field appearance="outline" >
+    <mat-label>Username</mat-label>
+    <input matInput [formControl]="form.controls.username" />
+    <mat-error>{{getErrorMessagesForUsername()}}</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput [formControl]="form.controls.email" />
+    <mat-error>{{getErrorMessagesForEmail()}}</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Password</mat-label>
+    <input type="password" matInput [formControl]="form.controls.password" />
+    <mat-error>{{getErrorMessagesForPassword()}}</mat-error>
+  </mat-form-field>
+
+  <div *ngIf="loginError" class="error-message">
+    {{ loginError }}
+  </div>
+  <div *ngIf="registrationError" class="error-message">
+    {{ registrationError }}
+  </div>
+
+  <div class="buttons-container">
+    <button [disabled]="form.invalid" mat-flat-button type="submit">Submit</button>
+    <a mat-stroked-button routerLink="/">Cancel</a>
+  </div>
+</form>

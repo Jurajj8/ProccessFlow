@@ -1,0 +1,134 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button aria-label="Menu icon" (click)="toggleMenu()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <h1>Schaeffler Process Flow | Juraj Krišťak</h1>
+  <div class="end" [ngClass]="{'mobile-hide': isMobile}">
+    <app-authorized>
+      <ng-container authorized>
+        <a mat-button [matMenuTriggerFor]="menu"><mat-icon>account_circle</mat-icon><span>Profile</span></a>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <a mat-menu-item routerLink="/profile">
+            {{securityService.getUsername()}}
+          </a>
+          <div *ngIf="securityService.getRoleAdmin()">
+            <a mat-menu-item routerLink="/users">
+              Users
+            </a>
+          </div>
+        </mat-menu>
+        <a mat-button (click)="securityService.logout()"><mat-icon>logout</mat-icon><span>Logout</span></a>
+      </ng-container>
+      <ng-container notAuthorized>
+        <a mat-button routerLink="/login">
+          <mat-icon>login</mat-icon><span>Login</span>
+        </a>
+        <a mat-button routerLink="/register">
+          <mat-icon>person_add</mat-icon><span>Register</span>
+        </a>
+      </ng-container>
+    </app-authorized>
+  </div>
+</mat-toolbar>
+<mat-sidenav-container autosize="true">
+  <mat-sidenav [ngClass]="!isCollapsed ? 'expanded' : ''"
+               [mode]="isMobile ? 'over' : 'side'"
+               [opened]="isMobile ? 'false' : 'true'">
+    <div class="sidenav-content">
+      <mat-list>
+        <a mat-list-item
+           routerLink="/"
+           routerLinkActive="active"
+           ariaCurrentWhenActive="page">
+          <span class="entry">
+            <mat-icon>dashboard</mat-icon>
+            <span *ngIf="!isCollapsed">Dashboard</span>
+          </span>
+        </a>
+        <app-authorized>
+          <ng-container authorized>
+            <a mat-list-item
+               routerLink="/partCheckings"
+               routerLinkActive="active"
+               ariaCurrentWhenActive="page">
+              <span class="entry">
+                <mat-icon>build_circle</mat-icon>
+                <span *ngIf="!isCollapsed">Part Checking</span>
+              </span>
+            </a>
+            <a mat-list-item
+               routerLink="/assemblyLines"
+               routerLinkActive="active"
+               ariaCurrentWhenActive="page">
+              <span class="entry">
+                <mat-icon>camera_roll</mat-icon>
+                <span *ngIf="!isCollapsed">Assembly Lines</span>
+              </span>
+            </a>
+            <a mat-list-item
+               routerLink="/products"
+               routerLinkActive="active"
+               ariaCurrentWhenActive="page">
+              <span class="entry">
+                <mat-icon>ballot</mat-icon>
+                <span *ngIf="!isCollapsed">Components</span>
+              </span>
+            </a>
+            <a mat-list-item
+               routerLink="/projects"
+               routerLinkActive="active"
+               ariaCurrentWhenActive="page"
+               class="bottom-item">
+              <span class="entry">
+                <mat-icon>add_circle</mat-icon>
+                <span *ngIf="!isCollapsed">Projects</span>
+              </span>
+            </a>
+          </ng-container>
+        </app-authorized>
+      </mat-list>
+      <div class="mobile-auth" *ngIf="isMobile">
+        <app-authorized>
+          <ng-container authorized>
+            <a mat-list-item routerLink="/profile">
+              <span class="entry">
+                <mat-icon>account_circle</mat-icon>
+                <span *ngIf="!isCollapsed">{{securityService.getUsername()}}</span>
+              </span>
+
+            </a>
+            <a mat-list-item routerLink="/users">
+              <span class="entry">
+                <mat-icon>group</mat-icon>
+                <span *ngIf="!isCollapsed">Users</span>
+              </span>
+            </a>
+            <a mat-list-item (click)="securityService.logout()">
+              <span class="entry">
+                <mat-icon>logout</mat-icon>
+                <span *ngIf="!isCollapsed">Logout</span>
+              </span>
+            </a>
+          </ng-container>
+          <ng-container notAuthorized>
+            <a mat-list-item routerLink="/login">
+              <span class="entry">
+                <mat-icon>login</mat-icon>
+                <span *ngIf="!isCollapsed">Login</span>
+              </span>
+            </a>
+            <a mat-list-item routerLink="/register">
+              <span class="entry">
+                <mat-icon>person_add</mat-icon>
+                <span *ngIf="!isCollapsed">Register</span>
+              </span>
+            </a>
+          </ng-container>
+        </app-authorized>
+      </div>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
