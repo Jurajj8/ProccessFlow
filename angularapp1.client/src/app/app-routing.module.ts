@@ -55,12 +55,12 @@ const routes: Routes = [
   {
     path: 'assemblyLines', component: AssemblyLineComponent, canActivate: [isLoggedIn]
   },
-  //{
-  //  path: 'assemblyLines/add', component: AddAssemblyLineComponent
-  //},
-  //{
-  //  path: 'assemblyLines/edit/:id', component: EditAssemblyLineComponent
-  //},
+  {
+    path: 'assemblyLines/add', component: AddAssemblyLineComponent
+  },
+  {
+    path: 'assemblyLines/edit/:id', component: EditAssemblyLineComponent
+  },
   {
     path: 'profile', component: ProfileComponent
   },

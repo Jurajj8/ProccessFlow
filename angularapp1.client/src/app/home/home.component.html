@@ -3,22 +3,30 @@
     <span>Projects</span>
   </div>
   <div class="project-container">
-    <div *ngFor="let project of projects">
-      <a [routerLink]="['/projects', project.projectID]">
-        <mat-card class="project-card" appearance="outlined">
-          <mat-card-header>
-            <mat-card-title>{{ project.name }}</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <p>{{ project.description }}</p>
-          </mat-card-content>
-          <mat-card-footer class="project-card-footer">
-            <div class="status-badge">
-              {{ getEnumName(project.status) }}
-            </div>
-          </mat-card-footer>
-        </mat-card>
-      </a>
+    <div *ngFor="let status of statusArray">
+      <div class="status-section" *ngIf="getProjectsByStatus(getEnumValue(status)).length > 0">
+        <h2>{{ status }}</h2>
+
+        <div class="projects-row">
+          <div *ngFor="let project of getProjectsByStatus(getEnumValue(status))">
+            <a [routerLink]="['/projects', project.projectID]">
+              <mat-card class="project-card" appearance="outlined">
+                <mat-card-header>
+                  <mat-card-title>{{ project.name }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <p>{{ project.description }}</p>
+                </mat-card-content>
+                <mat-card-footer class="project-card-footer">
+                  <div class="status-badge">
+                    {{ getEnumName(project.status) }}
+                  </div>
+                </mat-card-footer>
+              </mat-card>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

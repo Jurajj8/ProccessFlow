@@ -1,18 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { Project, ProjectService } from '../services/project.service';
-import { ProjectStatusEnum } from '../projects/project-status.enum';
+import { ProjectStatusEnum, StatusMaping } from '../projects/project-status.enum';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
   projects: Project[] = [];
+  statusArray: string[] = [];
 
   constructor(private projectService: ProjectService) { }
+
   ngOnInit(): void {
     this.loadProjects();
+    this.statusArray = Object.values(StatusMaping);
   }
 
   loadProjects(): void {
@@ -23,9 +26,15 @@ export class HomeComponent implements OnInit{
     });
   }
 
-
+  getProjectsByStatus(status: ProjectStatusEnum): any[] {
+    return this.projects.filter(project => project.status === status);
+  }
 
   getEnumName(status: ProjectStatusEnum): string {
-    return ProjectStatusEnum[status];
+    return StatusMaping[status];
+  }
+
+  getEnumValue(statusName: string): ProjectStatusEnum {
+    return (ProjectStatusEnum as any)[statusName];
   }
 }
