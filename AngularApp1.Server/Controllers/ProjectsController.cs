@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AngularApp1.Server.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AngularApp1.Server.Controllers
 {
+    [Authorize(Policy = "AdminOnly")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectsController : ControllerBase

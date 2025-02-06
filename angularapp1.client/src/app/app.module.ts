@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
@@ -39,6 +39,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { UsersComponent } from './users/users.component';
 import { WeatherComponent } from './weather/weather.component';
+import { AuthInterceptor } from './security/auth.interceptor';
 
 
 
@@ -75,7 +76,11 @@ import { WeatherComponent } from './weather/weather.component';
     MatButtonModule, MatCardModule, MatChipsModule, MatMenuModule
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(), {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
