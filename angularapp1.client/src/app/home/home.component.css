@@ -1,112 +1,179 @@
-.project-container {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  height: 80vh;
+.container {
+    display: flex;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  max-width: 50vw;
   overflow-y: auto;
   overflow-x: hidden;
-  justify-content: flex-start;
-  padding: 1rem;
 }
 
-.projects-row {
+.container-table {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  width: 25vw;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.container-recent {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: flex-start;
+  gap: 2vw;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  max-width: 95vw;
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.project-container a {
-  box-sizing: border-box;
-  text-decoration: none;
-  color: inherit;
+
+.project-count-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 2vw;
 }
 
-.project-card {
+.project-count {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  max-width: 29vw;
-  min-width: 20vw;
-  transition: transform 0.3s, box-shadow 0.3s;
-  border: 1px solid #ddd;
+  align-items: flex-start;
+  margin-right: 15px;
+  background-color: #f9f9f9;
+  padding: 10px 15px;
   border-radius: 8px;
-  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 15vw;
 }
 
-  .project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
+.count {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  line-height: 1;
+}
 
-  .project-card mat-card-header {
-    background-color: #f5f5f5;
-    color: #333;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-  }
+.label {
+  font-size: 0.8rem;
+  color: #777;
+}
 
-  .project-card mat-card-content {
-    flex-grow: 1;
-  }
-
-.mat-mdc-card-footer {
-  justify-self: center;
-  text-align: center;
-  max-width: 50%;
+.see-all-button {
+  float: right;
   margin-left: auto;
-  margin-right: auto;
-}
-
-@media (max-width: 1200px) {
-  .project-card {
-    max-width: 45vw;
-  }
-}
-
-@media (max-width: 768px) {
-  .project-card {
-    max-width: 90vw;
-  }
-}
-
-@media (max-width: 576px) {
-  .project-card {
-    max-width: 100%;
-    min-width: 100%;
-    height: auto;
-  }
-}
-
-.mat-mdc-card-header {
-  justify-content: center;
-  padding: 16px;
+  margin-right: 0;
+  background-color: #0d6efd;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  align-self: flex-start;
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 1.2rem;
   margin-bottom: 20px;
-  text-align: center;
   color: #333;
+  text-align: left;
+ /* border: 6px solid #E3E2E8;
+  border-radius: 5px;
+  background: #E3E2E8;*/
+  padding: 15px;
 }
 
-.status-section h2 {
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 1rem;
+.table-wrapper {
+  overflow-x: auto;
+  overflow-y: auto;
 }
 
+.projects-table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+  .projects-table thead {
+    font-weight: bold;
+    padding-bottom: 150px;
+  }
+
+  .projects-table th,
+  .projects-table td {
+    margin-top: 51px;
+    padding: 10px 12px;
+    text-align: left;
+  }
+
+. /*.projects-table tbody tr {
+    background-color: whitesmoke;
+  }
+
+  .projects-table tbody tr:hover {
+    background-color: #edf2f7;
+  }*/
 .status-badge {
-  padding: 5px 10px;
-  border: solid #ddd;
-  border-radius: 30px;
-  background-color: #f5f5f5;
-  color: #333;
-  margin: 10px 0;
-  text-align: center;
-  font-weight: 500;
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 15px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: #4b5563;
+  background-color: #e5e7eb;
 }
 
-p{
-    margin-top: 0.5rem;
+.status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px; 
+  border-radius: 50%;
+  margin-right: 5px; 
+}
+
+.status-review {
+  background-color: #7e57c2;
+}
+
+.status-in-progress {
+  background-color: #e53e3e;
+}
+
+.status-pending {
+  background-color: #ed8936;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+@media (max-width: 768px) {
+  .projects-table {
+    font-size: 0.8rem;
+  }
+
+    .projects-table th,
+    .projects-table td {
+      padding: 6px 8px;
+    }
+
+  .project-count {
+    width: 25vw;
+  }
+
+  .container{
+      max-width: 90vw;
+      align-content: space-between;
+      align-items: stretch;
+  }
+
+  .container-table{
+     width: 90vw;
+  }
 }

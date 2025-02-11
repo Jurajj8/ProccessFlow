@@ -1,32 +1,77 @@
-<div>
-  <div class="title">
-    <span>Projects</span>
+<div class="container">
+  <div class="project-count-container">
+    <div class="project-count">
+      <span class="count">{{ projects.length }}</span>
+      <span class="label">Projects</span>
+    </div>
+    <div class="project-count">
+      <span class="count">{{ users.length }}</span>
+      <span class="label">Users</span>
+    </div>
+    <div class="project-count">
+      <span class="count">{{ assemblyLines.length }}</span>
+      <span class="label">Assembly Lines</span>
+    </div>
   </div>
-  <div class="project-container">
-    <div *ngFor="let status of statusArray">
-      <div class="status-section" *ngIf="getProjectsByStatus(getEnumValue(status)).length > 0">
-        <h2>{{ status }}</h2>
+</div>
 
-        <div class="projects-row">
-          <div *ngFor="let project of getProjectsByStatus(getEnumValue(status))">
+<div class="container-recent">
+  <div class="container-table">
+    <div class="title">
+      <span>Recent Projects</span>
+      <a href="#" class="see-all-button">See all &rarr;</a>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="projects-table">
+        <thead>
+          <tr>
+            <th>Project Title</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let project of projects">
             <a [routerLink]="['/projects', project.projectID]">
-              <mat-card class="project-card" appearance="outlined">
-                <mat-card-header>
-                  <mat-card-title>{{ project.name }}</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                  <p>{{ project.description }}</p>
-                </mat-card-content>
-                <mat-card-footer class="project-card-footer">
-                  <div class="status-badge">
-                    {{ getEnumName(project.status) }}
-                  </div>
-                </mat-card-footer>
-              </mat-card>
+            <td>{{ project.name }}</td>
             </a>
-          </div>
-        </div>
-      </div>
+            <td>
+              <span class="status-badge">
+                <span class="status-indicator" [ngClass]="{'status-review': project.status === 0, 'status-in-progress': project.status === 1, 'status-pending': project.status === 2}"></span>
+                {{ getEnumName(project.status) }}
+              </span>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="container-table">
+    <div class="title">
+      <span>Recent AssemlbyLines</span>
+      <a href="#" class="see-all-button">See all &rarr;</a>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="projects-table">
+        <thead>
+          <tr>
+            <th>AssemblyLine</th>
+            <th>Project</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let assemblyLine of assemblyLines">
+            <td>{{ assemblyLine.name }}</td>
+            <td>
+              <ng-container *ngFor="let project of projects">
+                <span *ngIf="project.projectID === assemblyLine.projectID">{{ project.name }}</span>
+              </ng-container>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

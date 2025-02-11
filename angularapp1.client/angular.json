@@ -75,6 +75,10 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "port": 4600,
+            "proxyConfig": "src/proxy.conf.js"
+          },
           "configurations": {
             "production": {
               "buildTarget": "angularapp1.client:build:production"
@@ -116,5 +120,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
