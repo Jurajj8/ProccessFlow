@@ -40,6 +40,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { UsersComponent } from './users/users.component';
 import { WeatherComponent } from './weather/weather.component';
 import { AuthInterceptor } from './security/auth.interceptor';
+import { ProjectSchemaComponent } from './projects/project-schema/project-schema.component';
 
 
 
@@ -66,7 +67,8 @@ import { AuthInterceptor } from './security/auth.interceptor';
     ProjectDetailsComponent,
     ProfileComponent,
     UsersComponent,
-    WeatherComponent
+    WeatherComponent,
+    ProjectSchemaComponent
   ],
   imports: [
     BrowserModule, HttpClientModule, FormsModule,

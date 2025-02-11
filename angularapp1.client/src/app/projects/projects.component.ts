@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService, Project } from '../services/project.service';
 import { ProjectStatusEnum } from './project-status.enum';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-projects',
@@ -12,6 +13,7 @@ export class ProjectsComponent implements OnInit {
   selectedProject: Project | null = null;
   filteredProjects: Project[] = [];
   searchTerm: string = '';
+  fileName: string = Date.now().toString() + '.xlsx';
 
   constructor(private projectService: ProjectService) { }
 
@@ -92,5 +94,14 @@ export class ProjectsComponent implements OnInit {
         project.description.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
+  }
+
+  exportExcel(): void {
+    const ws : XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.projects);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(wb, ws, 'Projects')
+
+    XLSX.writeFile(wb, this.fileName);
   }
 }

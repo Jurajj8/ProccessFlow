@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
 
   loadProjects(): void {
     this.projectService.getProjects().subscribe((projects) => {
-      this.projects = projects;
+      this.projects = projects.sort((a, b) => new Date(b.updatedDate).getTime() - new Date(a.updatedDate).getTime());
     }, error => {
       console.error('Error loading projects', error);
     });

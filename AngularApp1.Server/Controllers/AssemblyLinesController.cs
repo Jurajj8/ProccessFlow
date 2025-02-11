@@ -77,6 +77,7 @@ namespace AngularApp1.Server.Controllers
                 return BadRequest();
             }
 
+            assemblyLine.dateEdited = DateTime.UtcNow;
             _context.Entry(assemblyLine).State = EntityState.Modified;
 
             try

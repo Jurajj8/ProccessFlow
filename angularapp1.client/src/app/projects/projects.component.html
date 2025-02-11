@@ -2,8 +2,11 @@
   <div class="d-flex justify-content-center align-items-center mb-4">
     <h2 class="me-auto">Projects</h2>
     <input type="text" class="form-control ms-5 me-5" placeholder="Search projects" [(ngModel)]="searchTerm" (input)="filterProjects()">
-    <button routerLink="/projects/add" class="btn btn-primary">
+    <button routerLink="/projects/add" class="btn btn-primary me-2">
       AddProject
+    </button>
+    <button (click)="exportExcel()" class="btn btn-success">
+      Export to Excel
     </button>
 
   </div>

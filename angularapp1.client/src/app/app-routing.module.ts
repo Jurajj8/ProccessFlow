@@ -20,6 +20,7 @@ import { ProjectDetailsComponent } from './projects/project-details/project-deta
 import { ProfileComponent } from './profile/profile.component';
 import { UsersComponent } from './users/users.component';
 import { WeatherComponent } from './weather/weather.component';
+import { ProjectSchemaComponent } from './projects/project-schema/project-schema.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,9 @@ const routes: Routes = [
   },
   {
     path: 'projects/:projectID', component: ProjectDetailsComponent, canActivate: [isLoggedIn]
+  },
+  {
+    path: 'projects/:projectID/projectSchema', component: ProjectSchemaComponent, canActivate: [isLoggedIn]
   },
   {
     path: 'projects/:projectID/assembly-lines/add', component: AddAssemblyLineComponent, canActivate: [isLoggedIn]

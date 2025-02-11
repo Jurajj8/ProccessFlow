@@ -53,6 +53,7 @@ namespace AngularApp1.Server.Controllers
                 return BadRequest();
             }
 
+            project.UpdatedDate = DateTime.UtcNow;
             _context.Entry(project).State = EntityState.Modified;
 
             try

@@ -24,11 +24,13 @@
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
     "bootstrap": "^5.3.3",
+    "gojs": "^3.0.19",
     "ionic": "^5.4.16",
     "jest-editor-support": "*",
     "run-script-os": "*",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {
