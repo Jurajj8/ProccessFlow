@@ -108,5 +108,18 @@ namespace AngularApp1.Server.Controllers
         {
             return _context.Projects.Any(e => e.ProjectID == id);
         }
+
+        [HttpGet("{id}/diagrams")]
+        public async Task<ActionResult<IEnumerable<DiagramData>>> GetProjectDiagrams(int id)
+        {
+            var project = await _context.Projects.Include(p => p.Diagram).FirstOrDefaultAsync(p => p.ProjectID == id);
+
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            return new List<DiagramData> { project.Diagram };
+        }
     }
 }

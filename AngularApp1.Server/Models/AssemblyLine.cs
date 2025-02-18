@@ -17,5 +17,6 @@ namespace AngularApp1.Server.Models
 
         [Required]
         public int projectID { get; set; }
+        public ICollection<Station> Stations { get; set; } = new List<Station>();
     }
 }

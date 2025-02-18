@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Project, ProjectService } from '../services/project.service';
-import { ProjectStatusEnum, StatusMaping } from '../projects/project-status.enum';
+import { ProjectStatusEnum, StatusMaping } from '../components/projects/project-status.enum';
 import { User, UserService } from '../services/user.service';
 import { AssemblyLine, AssemblyLineService } from '../services/assembly-line.service';
 
@@ -25,10 +25,13 @@ export class HomeComponent implements OnInit {
   }
 
   loadProjects(): void {
-    this.projectService.getProjects().subscribe((projects) => {
-      this.projects = projects.sort((a, b) => new Date(b.updatedDate).getTime() - new Date(a.updatedDate).getTime());
-    }, error => {
-      console.error('Error loading projects', error);
+    this.projectService.getProjects().subscribe({
+      next: (projects) => {
+        this.projects = projects.sort((a, b) => new Date(b.updatedDate).getTime() - new Date(a.updatedDate).getTime());
+      },
+      error: error => {
+        console.error('Error loading projects', error);
+      }
     });
   }
 
@@ -45,18 +48,24 @@ export class HomeComponent implements OnInit {
   }
 
   loadUsers(): void {
-    this.userService.getUsers().subscribe((users) => {
-      this.users = users;
-    }, error => {
-      console.error('Error loading users', error);
+    this.userService.getUsers().subscribe({
+      next: (users) => {
+        this.users = users;
+      },
+      error: (error) => {
+        console.error('Error loading users', error);
+      }
     });
   }
 
   loadAssemblyLines(): void {
-    this.assemblyLineService.getAssemblyLines().subscribe((assemblyLines) => {
+    this.assemblyLineService.getAssemblyLines().subscribe({
+      next: (assemblyLines) => {
       this.assemblyLines = assemblyLines;
-    }, error => {
+      },
+      error: error => {
       console.error('Error loading AssemblyLines', error);
+    }
     });
   }
 }

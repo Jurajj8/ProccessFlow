@@ -1,0 +1,37 @@
+<div *ngIf="project" class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h2>{{ project.name }}</h2>
+    </div>
+    <div class="card-body">
+      <p>{{ project.description }}</p>
+      <button [routerLink]="['/projects', project.projectID, 'assembly-lines', 'add']" class="btn btn-primary mb-3">
+        Add Assembly Line
+      </button>
+      <button [routerLink]="['/projects', project.projectID, 'projectSchema']" class="btn btn-primary mb-3 ms-2">
+        Schema
+      </button>
+      <h3>Assembly Lines</h3>
+      <div *ngIf="assemblyLines.length > 0; else noAssemblyLines">
+        <div class="list-group">
+          <div *ngFor="let assemblyLine of assemblyLines" class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <h5 class="mb-1">{{ assemblyLine.name }}</h5>
+              <p class="mb-1">{{ assemblyLine.description }}</p>
+            </div>
+            <div>
+              <button [routerLink]="['/projects', project.projectID, 'assembly-lines', assemblyLine.lineID ]" class="btn btn-success btn-sm me-2">
+                <i class="material-icons">arrow_forward</i>
+              </button>
+              <button (click)="deleteAssemblyLine(assemblyLine.lineID)" class="btn btn-danger btn-sm me-2">Delete</button>
+              <button [routerLink]="['/projects', project.projectID, 'assembly-lines', 'edit', assemblyLine.lineID]" class="btn btn-primary btn-sm">Edit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #noAssemblyLines>
+        <p>No assembly lines available.</p>
+      </ng-template>
+    </div>
+  </div>
+</div>

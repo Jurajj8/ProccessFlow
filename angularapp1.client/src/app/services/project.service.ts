@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
-import { ProjectStatusEnum } from '../projects/project-status.enum';
+import { ProjectStatusEnum } from '../components/projects/project-status.enum';
 
 export interface Project {
   projectID: number;
@@ -11,6 +11,7 @@ export interface Project {
   description: string;
   createdDate: Date;
   updatedDate: Date;
+  diagramId?: number;
 }
 
 @Injectable({

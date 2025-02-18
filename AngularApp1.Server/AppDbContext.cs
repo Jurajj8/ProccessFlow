@@ -12,6 +12,9 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Image> Images { get; set; }
 
+    public DbSet<DiagramData> Diagrams { get; set; }
+    public DbSet<Station> Stations { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -26,6 +29,21 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .HasOne<Projects>()
             .WithMany(p => p.AssemblyLines)
             .HasForeignKey(al => al.projectID);
+
+        modelBuilder.Entity<Projects>()
+            .HasOne(p => p.Diagram)
+            .WithOne()
+            .HasForeignKey<DiagramData>(d => d.ProjectID)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Station>()
+            .HasOne<AssemblyLine>()
+            .WithMany(p => p.Stations)
+            .HasForeignKey(al => al.AssemblyLineID);
+   
+
+        base.OnModelCreating(modelBuilder);
+
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using AngularApp1.Server.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -102,6 +103,7 @@ namespace AngularApp1.Server.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminOnly")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ApplicationUser>>> GetUsers()
         {
@@ -120,6 +122,7 @@ namespace AngularApp1.Server.Controllers
             return Ok(user);
         }
 
+        [Authorize(Policy = "AdminOnly")]
         [HttpPost]
         public async Task<IActionResult> AddUser([FromBody] UserCredentials newUser)
         {
@@ -155,7 +158,7 @@ namespace AngularApp1.Server.Controllers
             }
         }
 
-
+        [Authorize(Policy = "AdminOnly")]
         [HttpPut("{email}")]
         public async Task<IActionResult> UpdateUser(string email, [FromBody] UserCredentials updatedUser)
         {
@@ -179,6 +182,7 @@ namespace AngularApp1.Server.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminOnly")]
         [HttpDelete("{email}")]
         public async Task<IActionResult> DeleteUser(string email)
         {
@@ -199,6 +203,7 @@ namespace AngularApp1.Server.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminOnly")]
         [HttpPost("{email}/roles")]
         public async Task<IActionResult> AddRoleToUser(string email, [FromBody] string role)
         {
@@ -219,6 +224,7 @@ namespace AngularApp1.Server.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminOnly")]
         [HttpDelete("{email}/roles")]
         public async Task<IActionResult> RemoveRoleFromUser(string email, [FromBody] string role)
         {

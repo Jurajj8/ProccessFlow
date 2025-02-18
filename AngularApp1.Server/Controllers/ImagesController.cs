@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Identity;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AngularApp1.Server.Controllers
 {
+    [Authorize(Policy = "AdminOnly")]
     [ApiController]
     [Route("api/[controller]")]
     public class ImagesController : ControllerBase

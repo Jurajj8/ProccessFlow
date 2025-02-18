@@ -15,6 +15,7 @@ namespace AngularApp1.Server.Models
         public string? Description { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
+        public DiagramData Diagram { get; set; }
 
         public ICollection<AssemblyLine> AssemblyLines { get; set; } = new List<AssemblyLine>();
 

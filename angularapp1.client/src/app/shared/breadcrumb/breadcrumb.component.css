@@ -1,0 +1,19 @@
+.breadcrumb {
+  list-style: none;
+  display: flex;
+  padding: 0;
+}
+
+  .breadcrumb li {
+    margin-right: 0.5rem;
+  }
+
+    .breadcrumb li a {
+      text-decoration: none;
+      color: blue;
+      pointer-events: auto;
+    }
+
+    .breadcrumb li.active {
+      font-weight: bold;
+    }

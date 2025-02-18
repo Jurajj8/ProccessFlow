@@ -1,0 +1,30 @@
+<div class="container">
+  <div id="myDiagramDiv" class="diagram"></div>
+  <div class="component-container">
+    <mat-accordion>
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Assembly Lines </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div id="assemblyLinesDiv" class="component-list">
+          <div *ngFor="let line of assemblyLines" class="assemblyLine" draggable="true" [attr.data-name]="line.name">
+            {{ line.name }}
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion>
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Components </mat-panel-title>
+        </mat-expansion-panel-header>
+        <!--<div id="assemblyLinesDiv" class="component-list">
+          <div *ngFor="let line of assemblyLines" class="assemblyLine" draggable="true" [attr.data-name]="line.name">
+            {{ line.name }}
+          </div>
+        </div>-->
+      </mat-expansion-panel>
+    </mat-accordion>
+    <button class="btn btn-primary" (click)="save()">Save Diagram</button>
+  </div>
+</div>
