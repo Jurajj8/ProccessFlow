@@ -1,42 +1,51 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { NavigationEnd, Router } from '@angular/router';
+import { BehaviorSubject, filter } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BreadcrumbService {
-  breadcrumbs: Array<{ label: string, url: string }> = [];
+  private breadcrumbsSubject = new BehaviorSubject<Array<{ label: string, url: string }>>([]);
+  breadcrumbs = this.breadcrumbsSubject.asObservable(); 
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      this.breadcrumbs = this.createBreadcrumbs(this.activatedRoute.root);
-    });
+  constructor(private router: Router) {
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        const newBreadcrumbs = this.createBreadcrumbs();
+        this.breadcrumbsSubject.next(newBreadcrumbs);
+      });
   }
 
-  private createBreadcrumbs(route: ActivatedRoute, url: string = '', breadcrumbs: Array<{ label: string, url: string }> = []): Array<{ label: string, url: string }> {
-    const children: ActivatedRoute[] = route.children;
+  private createBreadcrumbs(): Array<{ label: string, url: string }> {
+    let breadcrumbs: Array<{ label: string, url: string }> = [];
+    let urlSegments = this.router.url.split('/').filter(segment => segment); 
 
-    if (children.length === 0) {
-      return breadcrumbs;
-    }
+    let url = '';
+    for (let segment of urlSegments) {
+      url += `/${segment}`;
 
-    for (const child of children) {
-      const routeURL: string = child.snapshot.url.map(segment => segment.path).join('/');
-      if (routeURL !== '') {
-        url += `/${routeURL}`;
+      let matchingRoute = this.findMatchingRoute(url);
+      if (matchingRoute) {
+        breadcrumbs.push({ label: matchingRoute['breadcrumb'], url });
       }
-
-      const label = child.snapshot.data['breadcrumb'];
-      if (label) {
-        breadcrumbs.push({ label, url });
-      }
-
-      return this.createBreadcrumbs(child, url, breadcrumbs);
     }
 
     return breadcrumbs;
   }
+
+
+  private findMatchingRoute(url: string) {
+    for (let route of this.router.config) {
+      const routePath = `/${route.path}`;
+
+      const routeRegex = new RegExp(`^${routePath.replace(/:\w+/g, '[^/]+')}$`);
+
+      if (routeRegex.test(url) && route.data?.['breadcrumb']) {
+        return { breadcrumb: route.data['breadcrumb'] };
+      }
+    }
+    return null;
+  }
+
 }

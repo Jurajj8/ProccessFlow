@@ -1,0 +1,22 @@
+.material-icons {
+  font-size: 18px;
+}
+
+.list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  transition: background 0.2s ease-in-out;
+}
+
+  .list-group-item:hover {
+    background: #e9ecef;
+  }
+
+a {
+    text-decoration: none;
+    color: inherit;
+}

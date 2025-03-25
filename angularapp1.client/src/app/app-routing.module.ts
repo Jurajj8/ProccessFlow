@@ -23,6 +23,8 @@ import { WeatherComponent } from './weather/weather.component';
 import { ProjectSchemaComponent } from './components/projects/project-schema/project-schema.component';
 import { StationComponent } from './components/station/station.component';
 import { AssemblyLineDetailsComponent } from './components/assembly-line/assembly-line-details/assembly-line-details.component';
+import { EditStationComponent } from './components/station/edit-station/edit-station.component';
+import { AddStationComponent } from './components/station/add-station/add-station.component';
 
 const routes: Routes = [
   {
@@ -92,16 +94,18 @@ const routes: Routes = [
     path: 'assemblyLines/edit/:id', component: EditAssemblyLineComponent
   },
   {
-    path: 'projects/:projectId/assembly-lines/:lineID', component: AssemblyLineDetailsComponent, canActivate: [isLoggedIn]
+    path: 'projects/:projectId/assembly-lines/:lineID', component: AssemblyLineDetailsComponent, canActivate: [isLoggedIn], data: {
+      breadcrumb: 'Assembly Line'
+    }
   },
   {
     path: 'stations', component: StationComponent, canActivate: [isLoggedIn]
   },
   {
-    path: 'stations/add', component: AddAssemblyLineComponent
+    path: 'projects/:projectId/assembly-lines/:lineID/stations/edit/:stationID', component: EditStationComponent, canActivate: [isLoggedIn]
   },
   {
-    path: 'stations/edit/:id', component: EditAssemblyLineComponent
+    path: 'projects/:projectId/assembly-lines/:lineID/stations/add', component: AddStationComponent, canActivate: [isLoggedIn]
   },
   {
     path: 'profile', component: ProfileComponent, data: {

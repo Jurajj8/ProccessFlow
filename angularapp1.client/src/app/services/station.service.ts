@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 
 export interface Station {
-  StationID: number
-  AssemblyLineID: number
+  stationID: number
+  assemblyLineID: number
   name: string
   description: string
 }
@@ -34,7 +34,7 @@ export class StationService {
   }
 
   updateStation(station: Station): Observable<void> {
-    return this.http.put<void>(`${this.ApiURL}/${station.StationID}`, station);
+    return this.http.put<void>(`${this.ApiURL}/${station.stationID}`, station);
   }
 
   deleteStation(id: number): Observable<void> {

@@ -1,12 +1,10 @@
-<nav>
-  <ul class="breadcrumb">
-    <li *ngFor="let breadcrumb of breadcrumbs; let last = last" [ngClass]="{ 'active': last }">
-      <ng-container *ngIf="!last">
-        <a [routerLink]="breadcrumb.url" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ breadcrumb.label }}</a>
-      </ng-container>
-      <ng-container *ngIf="last">
-        {{ breadcrumb.label }}
-      </ng-container>
-    </li>
-  </ul>
-</nav>
+<ul class="breadcrumb">
+  <li *ngFor="let breadcrumb of breadcrumbs$ | async; let last = last" [ngClass]="{ 'active': last }">
+    <ng-container *ngIf="!last">
+      <a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
+    </ng-container>
+    <ng-container *ngIf="last">
+      {{ breadcrumb.label }}
+    </ng-container>
+  </li>
+</ul>

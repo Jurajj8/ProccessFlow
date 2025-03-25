@@ -9,7 +9,9 @@
     <li class="list-group-item d-flex justify-content-between align-items-center"
         *ngFor="let assemblyLine of assemblyLines">
       <span>
-        <strong>{{ assemblyLine.name }}</strong><br />{{ assemblyLine.description }}<br /> {{assemblyLine.projectID}}
+        <a [routerLink]="['/projects', assemblyLine.projectID]">
+          <strong>{{ assemblyLine.name }}</strong><br />{{ assemblyLine.description }}<br /> {{assemblyLine.projectID}}
+        </a>
       </span>
       <span>
         <button [routerLink]="['/assemblyLines/edit', assemblyLine.lineID]"

@@ -16,17 +16,31 @@
         <div class="list-group">
           <div *ngFor="let assemblyLine of assemblyLines" class="list-group-item d-flex justify-content-between align-items-center">
             <div>
-              <h5 class="mb-1">{{ assemblyLine.name }}</h5>
-              <p class="mb-1">{{ assemblyLine.description }}</p>
+              <a [routerLink]="['/projects', project.projectID, 'assembly-lines', assemblyLine.lineID ]">
+                <h5 class="mb-1">{{ assemblyLine.name }}</h5>
+                <p class="mb-1">{{ assemblyLine.description }}</p>
+              </a>
             </div>
-            <div>
-              <button [routerLink]="['/projects', project.projectID, 'assembly-lines', assemblyLine.lineID ]" class="btn btn-success btn-sm me-2">
-                <i class="material-icons">arrow_forward</i>
+            <div class="d-flex flex-column justify-content-center align-items-center ms-3">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
               </button>
-              <button (click)="deleteAssemblyLine(assemblyLine.lineID)" class="btn btn-danger btn-sm me-2">Delete</button>
-              <button [routerLink]="['/projects', project.projectID, 'assembly-lines', 'edit', assemblyLine.lineID]" class="btn btn-primary btn-sm">Edit</button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item [routerLink]="['/projects', project.projectID, 'assembly-lines', assemblyLine.lineID ]">
+                  <mat-icon>arrow_forward</mat-icon>
+                  <span>View</span>
+                </button>
+                <button mat-menu-item [routerLink]="['/projects', project.projectID, 'assembly-lines', 'edit', assemblyLine.lineID]">
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button mat-menu-item (click)="deleteAssemblyLine(assemblyLine.lineID)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+              </div>
             </div>
-          </div>
         </div>
       </div>
       <ng-template #noAssemblyLines>

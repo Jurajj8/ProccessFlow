@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AssemblyLine, AssemblyLineService } from '../../../services/assembly-line.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Project, ProjectService } from '../../../services/project.service';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-add-assembly-line',
@@ -16,11 +18,14 @@ export class AddAssemblyLineComponent implements OnInit {
     projectID: 0
   };
   projects: Project[] = [];
+  projectID: number | null = null;
 
-  constructor(private assemblyLineService: AssemblyLineService, public router: Router,private projectService: ProjectService) { }
+
+  constructor(private assemblyLineService: AssemblyLineService, public router: Router, private projectService: ProjectService, private _location: Location, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.loadProjects();
+    this.extractProjectID();
   }
 
   loadProjects() {
@@ -28,6 +33,19 @@ export class AddAssemblyLineComponent implements OnInit {
       this.projects = projects;
     }, error => {
       console.error('Error loading projects', error);
+    });
+  }
+
+  extractProjectID() {
+    this.route.paramMap.subscribe(params => {
+      const projectIDParam = params.get('projectID');
+      if (projectIDParam !== null) {
+        this.projectID = +projectIDParam;
+        this.newAssemblyLine.projectID = this.projectID;
+        console.log('Project ID:', this.projectID);
+      } else {
+        console.error('Project ID parameter is missing');
+      }
     });
   }
 
@@ -41,5 +59,9 @@ export class AddAssemblyLineComponent implements OnInit {
     } else {
       console.error('Validation failed: All fields are required.');
     }
+  }
+
+  back(): void {
+    this._location.back();
   }
 }

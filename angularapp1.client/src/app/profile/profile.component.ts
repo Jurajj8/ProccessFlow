@@ -39,6 +39,9 @@ export class ProfileComponent implements OnInit {
       this.user.profileImagePath = user.imageId ? `https://localhost:7244/api/images/${user.imageId}` : '';
     }, error => {
       console.error('Error loading user profile', error);
+      if (error.status === 401) {
+        console.error('Unauthorized access - please check your credentials');
+      }
     });
   }
 

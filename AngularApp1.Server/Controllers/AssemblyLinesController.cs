@@ -38,7 +38,7 @@ namespace AngularApp1.Server.Controllers
 
                 if (projectID.HasValue)
                 {
-                    query = query.Where(al => al.projectID == projectID.Value);
+                    query = query.Where(al => al.ProjectID == projectID.Value);
                 }
 
                 var assemblyLines = await query.ToListAsync();
@@ -74,12 +74,12 @@ namespace AngularApp1.Server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> AssemblyLine(int id, AssemblyLine assemblyLine)
         {
-            if (id != assemblyLine.lineID)
+            if (id != assemblyLine.LineID)
             {
                 return BadRequest();
             }
 
-            assemblyLine.dateEdited = DateTime.UtcNow;
+            assemblyLine.DateEdited = DateTime.UtcNow;
             _context.Entry(assemblyLine).State = EntityState.Modified;
 
             try
@@ -106,12 +106,12 @@ namespace AngularApp1.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<AssemblyLine>> PostAssemblyLine(AssemblyLine assemblyLine)
         {
-            if (assemblyLine.projectID == 0)
+            if (assemblyLine.ProjectID == 0)
             {
                 return BadRequest("ProjectID is required.");
             }
 
-            var project = await _context.Projects.FindAsync(assemblyLine.projectID);
+            var project = await _context.Project.FindAsync(assemblyLine.ProjectID);
             if (project == null)
             {
                 return BadRequest("Invalid ProjectID.");
@@ -120,7 +120,7 @@ namespace AngularApp1.Server.Controllers
             _context.AssemblyLine.Add(assemblyLine);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAssemblyLine", new { id = assemblyLine.lineID }, assemblyLine);
+            return CreatedAtAction("GetAssemblyLine", new { id = assemblyLine.LineID }, assemblyLine);
         }
 
         // DELETE: api/AssemblyLines/5
@@ -141,7 +141,7 @@ namespace AngularApp1.Server.Controllers
 
         private bool AssemblyLineExists(int id)
         {
-            return _context.AssemblyLine.Any(e => e.lineID == id);
+            return _context.AssemblyLine.Any(e => e.LineID == id);
         }
     }
 }

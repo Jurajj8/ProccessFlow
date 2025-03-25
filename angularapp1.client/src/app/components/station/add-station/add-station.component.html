@@ -1,1 +1,31 @@
-<p>add-station works!</p>
+<div class="container mt-4">
+  <h2 class="mb-4">Add Assembly Line</h2>
+  <form (ngSubmit)="addStation()" class="needs-validation">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text"
+             [(ngModel)]="newStation.name"
+             name="name"
+             id="name"
+             class="form-control"
+             required />
+    </div>
+    <div class="form-group">
+      <label for="description" class="form-label">Description:</label>
+      <input type="text"
+             [(ngModel)]="newStation.description"
+             name="description"
+             id="description"
+             class="form-control"
+             required />
+    </div>
+    <div class="d-flex justify-content-center">
+      <button type="submit" class="btn btn-primary">Add</button>
+      <button type="button"
+              class="btn btn-secondary ms-2"
+              (click)=back()>
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

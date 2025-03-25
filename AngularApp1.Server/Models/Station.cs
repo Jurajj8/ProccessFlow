@@ -14,5 +14,7 @@ namespace AngularApp1.Server.Models
         public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
         [Required]
         public int AssemblyLineID { get; set; }
+        public ICollection<Unit> Units { get; set; } = new List<Unit>();
+
     }
 }

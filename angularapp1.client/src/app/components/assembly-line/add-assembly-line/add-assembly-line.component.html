@@ -19,21 +19,11 @@
              class="form-control"
              required />
     </div>
-    <div class="form-group">
-      <label for="projectID" class="form-label">Project:</label>
-      <select [(ngModel)]="newAssemblyLine.projectID"
-              name="projectID"
-              id="projectID"
-              class="form-control"
-              required>
-        <option *ngFor="let project of projects" [value]="project.projectID">{{ project.name }}</option>
-      </select>
-    </div>
     <div class="d-flex justify-content-center">
       <button type="submit" class="btn btn-primary">Add</button>
       <button type="button"
               class="btn btn-secondary ms-2"
-              (click)="router.navigate(['/assemblyLines'])">
+              (click)=back()>
         Cancel
       </button>
     </div>

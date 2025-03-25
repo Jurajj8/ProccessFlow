@@ -20,7 +20,7 @@ public class DiagramsController : ControllerBase
     [HttpGet("{projectId}")]
     public async Task<ActionResult<DiagramData>> GetDiagram(int projectId)
     {
-        var diagram = await _context.Diagrams.FirstOrDefaultAsync(d => d.ProjectID == projectId);
+        var diagram = await _context.Diagram.FirstOrDefaultAsync(d => d.ProjectID == projectId);
 
         if (diagram == null)
         {
@@ -41,29 +41,36 @@ public class DiagramsController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var project = await _context.Projects.Include(p => p.Diagram).FirstOrDefaultAsync(p => p.ProjectID == diagramData.ProjectID);
+        var project = await _context.Project.Include(p => p.Diagram).FirstOrDefaultAsync(p => p.ProjectID == diagramData.ProjectID);
         if (project == null)
         {
             _logger.LogWarning("Invalid ProjectID: {ProjectID}", diagramData.ProjectID);
             return BadRequest("Invalid ProjectID");
         }
 
-        if (project.Diagram != null)
+        try
         {
-            project.Diagram.Name = diagramData.Name;
-            project.Diagram.JsonData = diagramData.JsonData;
-            _context.Entry(project.Diagram).State = EntityState.Modified;
+            if (project.Diagram != null)
+            {
+                project.Diagram.Name = diagramData.Name;
+                project.Diagram.JsonData = diagramData.JsonData;
+                _context.Entry(project.Diagram).State = EntityState.Modified;
+            }
+            else
+            {
+                project.Diagram = diagramData;
+                _context.Diagram.Add(diagramData);
+            }
+
+            await _context.SaveChangesAsync();
+            _logger.LogInformation("Diagram saved successfully with ID: {DiagramID}", diagramData.Id);
+            return CreatedAtAction(nameof(GetDiagram), new { projectId = diagramData.ProjectID }, diagramData);
         }
-        else
+        catch (Exception ex)
         {
-            project.Diagram = diagramData;
-            _context.Diagrams.Add(diagramData);
+            _logger.LogError(ex, "Error saving diagram with ProjectID: {ProjectID}", diagramData.ProjectID);
+            return StatusCode(500, "Internal server error");
         }
-
-        await _context.SaveChangesAsync();
-
-        _logger.LogInformation("Diagram saved successfully with ID: {DiagramID}", diagramData.Id);
-        return CreatedAtAction(nameof(GetDiagram), new { id = diagramData.Id }, diagramData);
     }
 
     [HttpPut("{id}")]
@@ -97,6 +104,6 @@ public class DiagramsController : ControllerBase
 
     private bool DiagramExists(int id)
     {
-        return _context.Diagrams.Any(e => e.Id == id);
+        return _context.Diagram.Any(e => e.Id == id);
     }
 }

@@ -5,7 +5,7 @@
     </div>
     <div class="card-body">
       <p>{{ assemblyLine.description }}</p>
-      <button [routerLink]="['/assemblyLines', assemblyLine.lineID, 'stations', 'add']" class="btn btn-primary mb-3">
+      <button [routerLink]="['/projects', assemblyLine.projectID, 'assembly-lines', assemblyLine.lineID, 'stations', 'add']" class="btn btn-primary mb-3">
         Add Station
       </button>
       <h3>Stations</h3>
@@ -17,8 +17,8 @@
               <p class="mb-1">{{ station.description }}</p>
             </div>
             <div>
-              <button (click)="deleteStation(station.StationID)" class="btn btn-danger btn-sm me-2">Delete</button>
-              <button [routerLink]="['/assemblyLines', station.StationID, 'stations', 'edit', station.StationID]" class="btn btn-primary btn-sm">Edit</button>
+              <button (click)="deleteStation(station.stationID)" class="btn btn-danger btn-sm me-2">Delete</button>
+              <button  [routerLink]="['/projects', assemblyLine.projectID, 'assembly-lines', assemblyLine.lineID, 'stations', 'edit', station.stationID]" class="btn btn-primary btn-sm">Edit</button>
             </div>
           </div>
         </div>

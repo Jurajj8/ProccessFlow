@@ -7,16 +7,16 @@ namespace AngularApp1.Server.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int lineID { get; set; }
+        public int LineID { get; set; }
         [Required]
-        public required string name { get; set; }
+        public required string Name { get; set; }
         [Required]
-        public required string description { get; set; }
-        public DateTime dateCreated { get; set; } = DateTime.UtcNow;
-        public DateTime dateEdited { get; set; } = DateTime.UtcNow;
+        public required string Description { get; set; }
+        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+        public DateTime DateEdited { get; set; } = DateTime.UtcNow;
 
         [Required]
-        public int projectID { get; set; }
+        public int ProjectID { get; set; }
         public ICollection<Station> Stations { get; set; } = new List<Station>();
     }
 }

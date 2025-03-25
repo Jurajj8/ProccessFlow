@@ -26,7 +26,7 @@ namespace AngularApp1.Server.Controllers
         {
             try
             {
-                IQueryable<Station> query = _context.Stations;
+                IQueryable<Station> query = _context.Station;
 
                 if (AssemblyLineID.HasValue)
                 {
@@ -58,7 +58,7 @@ namespace AngularApp1.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Station>> GetStation(int id)
         {
-            var station = await _context.Stations.FindAsync(id);
+            var station = await _context.Station.FindAsync(id);
 
             if (station == null)
             {
@@ -116,7 +116,7 @@ namespace AngularApp1.Server.Controllers
                 return BadRequest("Invalid AssemblyLineID.");
             }
 
-            _context.Stations.Add(station);
+            _context.Station.Add(station);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetStation", new { id = station.StationID }, station);
@@ -126,13 +126,13 @@ namespace AngularApp1.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStation(int id)
         {
-            var station = await _context.Stations.FindAsync(id);
+            var station = await _context.Station.FindAsync(id);
             if (station == null)
             {
                 return NotFound();
             }
 
-            _context.Stations.Remove(station);
+            _context.Station.Remove(station);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -140,7 +140,7 @@ namespace AngularApp1.Server.Controllers
 
         private bool StationExists(int id)
         {
-            return _context.Stations.Any(e => e.StationID == id);
+            return _context.Station.Any(e => e.StationID == id);
         }
     }
 }

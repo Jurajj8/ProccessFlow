@@ -23,34 +23,61 @@ namespace AngularApp1.Server.Migrations
 
             modelBuilder.Entity("AngularApp1.Server.Models.AssemblyLine", b =>
                 {
-                    b.Property<int>("lineID")
+                    b.Property<int>("LineID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("lineID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LineID"));
 
-                    b.Property<DateTime>("dateCreated")
+                    b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateEdited")
+                    b.Property<DateTime>("DateEdited")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("description")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("name")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("projectID")
+                    b.Property<int>("ProjectID")
                         .HasColumnType("int");
 
-                    b.HasKey("lineID");
+                    b.HasKey("LineID");
 
-                    b.HasIndex("projectID");
+                    b.HasIndex("ProjectID");
 
                     b.ToTable("AssemblyLine");
+                });
+
+            modelBuilder.Entity("AngularApp1.Server.Models.ComponentSpecification", b =>
+                {
+                    b.Property<int>("ComponentSpecID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ComponentSpecID"));
+
+                    b.Property<string>("Individualisation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("MassPerPart")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Provisioning")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("ComponentSpecID");
+
+                    b.ToTable("ComponentSpecification");
                 });
 
             modelBuilder.Entity("AngularApp1.Server.Models.DiagramData", b =>
@@ -77,7 +104,7 @@ namespace AngularApp1.Server.Migrations
                     b.HasIndex("ProjectID")
                         .IsUnique();
 
-                    b.ToTable("Diagrams");
+                    b.ToTable("Diagram");
                 });
 
             modelBuilder.Entity("AngularApp1.Server.Models.Image", b =>
@@ -98,7 +125,7 @@ namespace AngularApp1.Server.Migrations
 
                     b.HasKey("ImageID");
 
-                    b.ToTable("Images");
+                    b.ToTable("Image");
                 });
 
             modelBuilder.Entity("AngularApp1.Server.Models.PartChecking", b =>
@@ -122,7 +149,7 @@ namespace AngularApp1.Server.Migrations
                     b.ToTable("PartChecking");
                 });
 
-            modelBuilder.Entity("AngularApp1.Server.Models.Projects", b =>
+            modelBuilder.Entity("AngularApp1.Server.Models.Project", b =>
                 {
                     b.Property<int>("ProjectID")
                         .ValueGeneratedOnAdd()
@@ -148,7 +175,7 @@ namespace AngularApp1.Server.Migrations
 
                     b.HasKey("ProjectID");
 
-                    b.ToTable("Projects");
+                    b.ToTable("Project");
                 });
 
             modelBuilder.Entity("AngularApp1.Server.Models.Station", b =>
@@ -179,7 +206,87 @@ namespace AngularApp1.Server.Migrations
 
                     b.HasIndex("AssemblyLineID");
 
-                    b.ToTable("Stations");
+                    b.ToTable("Station");
+                });
+
+            modelBuilder.Entity("AngularApp1.Server.Models.Unit", b =>
+                {
+                    b.Property<int>("UnitID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UnitID"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ImageID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StationID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("UnitID");
+
+                    b.HasIndex("StationID");
+
+                    b.ToTable("Unit");
+                });
+
+            modelBuilder.Entity("AngularApp1.Server.Models.UnitSpecification", b =>
+                {
+                    b.Property<int>("UnitSpecId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UnitSpecId"));
+
+                    b.Property<double>("CycleTime")
+                        .HasColumnType("float");
+
+                    b.Property<string>("MountingPosition")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProcessStepDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QAActivities")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tolerances")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("TotalMass")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UnitID")
+                        .HasColumnType("int");
+
+                    b.HasKey("UnitSpecId");
+
+                    b.HasIndex("UnitID")
+                        .IsUnique();
+
+                    b.ToTable("UnitSpecification");
                 });
 
             modelBuilder.Entity("ApplicationUser", b =>
@@ -248,6 +355,75 @@ namespace AngularApp1.Server.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Component", b =>
+                {
+                    b.Property<int>("ComponentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ComponentID"));
+
+                    b.Property<string>("ComponentFID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ComponentName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ComponentSpecID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ContainerRange")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("ContainerWeight")
+                        .HasColumnType("float");
+
+                    b.Property<string>("DmcMarking")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Height")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ImageID")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Length")
+                        .HasColumnType("float");
+
+                    b.Property<int>("NumberOfCompInKLT")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfContainerInFeeder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Packaging")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SmbNumberFeeding")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SmbPackagingFeeding")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TimeReserveInFeeder")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Width")
+                        .HasColumnType("float");
+
+                    b.HasKey("ComponentID");
+
+                    b.HasIndex("ComponentSpecID");
+
+                    b.ToTable("Component");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -383,18 +559,33 @@ namespace AngularApp1.Server.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("UnitComponent", b =>
+                {
+                    b.Property<int>("UnitID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ComponentID")
+                        .HasColumnType("int");
+
+                    b.HasKey("UnitID", "ComponentID");
+
+                    b.HasIndex("ComponentID");
+
+                    b.ToTable("UnitComponent");
+                });
+
             modelBuilder.Entity("AngularApp1.Server.Models.AssemblyLine", b =>
                 {
-                    b.HasOne("AngularApp1.Server.Models.Projects", null)
+                    b.HasOne("AngularApp1.Server.Models.Project", null)
                         .WithMany("AssemblyLines")
-                        .HasForeignKey("projectID")
+                        .HasForeignKey("ProjectID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("AngularApp1.Server.Models.DiagramData", b =>
                 {
-                    b.HasOne("AngularApp1.Server.Models.Projects", null)
+                    b.HasOne("AngularApp1.Server.Models.Project", null)
                         .WithOne("Diagram")
                         .HasForeignKey("AngularApp1.Server.Models.DiagramData", "ProjectID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -408,6 +599,37 @@ namespace AngularApp1.Server.Migrations
                         .HasForeignKey("AssemblyLineID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("AngularApp1.Server.Models.Unit", b =>
+                {
+                    b.HasOne("AngularApp1.Server.Models.Station", null)
+                        .WithMany("Units")
+                        .HasForeignKey("StationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AngularApp1.Server.Models.UnitSpecification", b =>
+                {
+                    b.HasOne("AngularApp1.Server.Models.Unit", "Unit")
+                        .WithOne("UnitSpecification")
+                        .HasForeignKey("AngularApp1.Server.Models.UnitSpecification", "UnitID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Unit");
+                });
+
+            modelBuilder.Entity("Component", b =>
+                {
+                    b.HasOne("AngularApp1.Server.Models.ComponentSpecification", "ComponentSpecification")
+                        .WithMany("Components")
+                        .HasForeignKey("ComponentSpecID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ComponentSpecification");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -461,17 +683,59 @@ namespace AngularApp1.Server.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("UnitComponent", b =>
+                {
+                    b.HasOne("Component", "Component")
+                        .WithMany("UnitComponents")
+                        .HasForeignKey("ComponentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AngularApp1.Server.Models.Unit", "Unit")
+                        .WithMany("UnitComponents")
+                        .HasForeignKey("UnitID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Component");
+
+                    b.Navigation("Unit");
+                });
+
             modelBuilder.Entity("AngularApp1.Server.Models.AssemblyLine", b =>
                 {
                     b.Navigation("Stations");
                 });
 
-            modelBuilder.Entity("AngularApp1.Server.Models.Projects", b =>
+            modelBuilder.Entity("AngularApp1.Server.Models.ComponentSpecification", b =>
+                {
+                    b.Navigation("Components");
+                });
+
+            modelBuilder.Entity("AngularApp1.Server.Models.Project", b =>
                 {
                     b.Navigation("AssemblyLines");
 
                     b.Navigation("Diagram")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("AngularApp1.Server.Models.Station", b =>
+                {
+                    b.Navigation("Units");
+                });
+
+            modelBuilder.Entity("AngularApp1.Server.Models.Unit", b =>
+                {
+                    b.Navigation("UnitComponents");
+
+                    b.Navigation("UnitSpecification")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Component", b =>
+                {
+                    b.Navigation("UnitComponents");
                 });
 #pragma warning restore 612, 618
         }

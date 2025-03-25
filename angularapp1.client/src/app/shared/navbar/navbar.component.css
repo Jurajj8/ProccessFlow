@@ -41,7 +41,6 @@ mat-sidenav-content {
   margin: 1rem;
   padding-top: 5.5rem;
   transition: margin-left 0.3s ease-in-out;
-  overflow: hidden;
 }
 
 @media screen and (min-width: 600px) {

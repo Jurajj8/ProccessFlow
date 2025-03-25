@@ -6,31 +6,31 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    public DbSet<Projects> Projects { get; set; }
+    public DbSet<Project> Project { get; set; }
     public DbSet<PartChecking> PartChecking { get; set; }
     public DbSet<AssemblyLine> AssemblyLine { get; set; }
-
-    public DbSet<Image> Images { get; set; }
-
-    public DbSet<DiagramData> Diagrams { get; set; }
-    public DbSet<Station> Stations { get; set; }
+    public DbSet<Image> Image { get; set; }
+    public DbSet<DiagramData> Diagram { get; set; }
+    public DbSet<Station> Station { get; set; }
+    public DbSet<Unit> Unit { get; set; }
+    public DbSet<UnitSpecification> UnitSpecification { get; set; }
+    public DbSet<Component> Component { get; set; }
+    public DbSet<UnitComponent> UnitComponent { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
-
-        modelBuilder.Entity<Projects>()
+        modelBuilder.Entity<Project>()
             .HasMany(p => p.AssemblyLines)
             .WithOne()
-            .HasForeignKey(al => al.projectID)
+            .HasForeignKey(al => al.ProjectID)
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<AssemblyLine>()
-            .HasOne<Projects>()
+            .HasOne<Project>()
             .WithMany(p => p.AssemblyLines)
-            .HasForeignKey(al => al.projectID);
+            .HasForeignKey(al => al.ProjectID);
 
-        modelBuilder.Entity<Projects>()
+        modelBuilder.Entity<Project>()
             .HasOne(p => p.Diagram)
             .WithOne()
             .HasForeignKey<DiagramData>(d => d.ProjectID)
@@ -40,7 +40,34 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .HasOne<AssemblyLine>()
             .WithMany(p => p.Stations)
             .HasForeignKey(al => al.AssemblyLineID);
-   
+
+        modelBuilder.Entity<Unit>()
+            .HasOne<Station>()
+            .WithMany(p => p.Units)
+            .HasForeignKey(al => al.StationID);
+
+        modelBuilder.Entity<Unit>()
+            .HasOne(u => u.UnitSpecification)
+            .WithOne(us => us.Unit)
+            .HasForeignKey<UnitSpecification>(us => us.UnitID);
+
+        modelBuilder.Entity<UnitComponent>()
+            .HasKey(uc => new { uc.UnitID, uc.ComponentID });
+
+        modelBuilder.Entity<UnitComponent>()
+            .HasOne(uc => uc.Unit)
+            .WithMany(u => u.UnitComponents)
+            .HasForeignKey(uc => uc.UnitID);
+
+        modelBuilder.Entity<UnitComponent>()
+            .HasOne(uc => uc.Component)
+            .WithMany(c => c.UnitComponents)
+            .HasForeignKey(uc => uc.ComponentID);
+
+        modelBuilder.Entity<Component>()
+            .HasOne(c => c.ComponentSpecification)
+            .WithMany(cs => cs.Components)
+            .HasForeignKey(c => c.ComponentSpecID);
 
         base.OnModelCreating(modelBuilder);
 

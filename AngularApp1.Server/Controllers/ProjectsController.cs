@@ -24,16 +24,16 @@ namespace AngularApp1.Server.Controllers
 
         // GET: api/Projects
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Projects>>> GetProjects()
+        public async Task<ActionResult<IEnumerable<Project>>> GetProjects()
         {
-            return await _context.Projects.ToListAsync();
+            return await _context.Project.ToListAsync();
         }
 
         // GET: api/Projects/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Projects>> GetProject(int id)
+        public async Task<ActionResult<Project>> GetProject(int id)
         {
-            var project = await _context.Projects.FindAsync(id);
+            var project = await _context.Project.FindAsync(id);
 
             if (project == null)
             {
@@ -46,7 +46,7 @@ namespace AngularApp1.Server.Controllers
         // PUT: api/Projects/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProject(int id, Projects project)
+        public async Task<IActionResult> PutProject(int id, Project project)
         {
             if (id != project.ProjectID)
             {
@@ -78,27 +78,34 @@ namespace AngularApp1.Server.Controllers
         // POST: api/Projects
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Projects>> PostProject(Projects project)
+        public async Task<ActionResult<Project>> PostProject(ProjectCreate projectCreate)
         {
-            project.Status = ProjectsStatusEnum.InDevelopment;
+            var project = new Project
+            {
+                Name = projectCreate.Name,
+                Description = projectCreate.Description,
+                Status = ProjectStatusEnum.InDevelopment,
+                CreatedDate = DateTime.UtcNow,
+                UpdatedDate = DateTime.UtcNow
+            };
 
-            _context.Projects.Add(project);
+            _context.Project.Add(project);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProject", new { id = project.ProjectID }, project);
+            return CreatedAtAction(nameof(GetProject), new { id = project.ProjectID }, project);
         }
 
         // DELETE: api/Projects/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProject(int id)
         {
-            var project = await _context.Projects.FindAsync(id);
+            var project = await _context.Project.FindAsync(id);
             if (project == null)
             {
                 return NotFound();
             }
 
-            _context.Projects.Remove(project);
+            _context.Project.Remove(project);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -106,13 +113,13 @@ namespace AngularApp1.Server.Controllers
 
         private bool ProjectExists(int id)
         {
-            return _context.Projects.Any(e => e.ProjectID == id);
+            return _context.Project.Any(e => e.ProjectID == id);
         }
 
         [HttpGet("{id}/diagrams")]
         public async Task<ActionResult<IEnumerable<DiagramData>>> GetProjectDiagrams(int id)
         {
-            var project = await _context.Projects.Include(p => p.Diagram).FirstOrDefaultAsync(p => p.ProjectID == id);
+            var project = await _context.Project.Include(p => p.Diagram).FirstOrDefaultAsync(p => p.ProjectID == id);
 
             if (project == null)
             {

@@ -14,20 +14,35 @@
     <li class="list-group-item d-flex justify-content-between align-items-center"
         *ngFor="let project of filteredProjects">
       <div class="d-flex flex-column">
-        <strong>{{ project.name }}</strong>
-        <span>{{ project.description }}</span>
-        <span class="text-muted"><i>{{ getEnumName(project.status) }}</i></span>
+        <a [routerLink]="['/projects', project.projectID]">
+          <strong>{{ project.name }}</strong>
+        </a>
+        <a [routerLink]="['/projects', project.projectID]">
+          <span>{{ project.description }}</span>
+        </a>
+        <a [routerLink]="['/projects', project.projectID]">
+          <span class="text-muted"><i>{{ getEnumName(project.status) }}</i></span>
+        </a>
       </div>
       <div class="d-flex flex-column justify-content-center align-items-center ms-3">
-        <button [routerLink]="['/projects', project.projectID]" class="btn btn-success btn-sm me-2">
-          <i class="material-icons">arrow_forward</i>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
         </button>
-        <button [routerLink]="['/projects/edit', project.projectID]" class="btn btn-primary btn-sm me-2 mt-1">
-          <i class="material-icons">edit</i>
-        </button>
-        <button class="btn btn-danger btn-sm me-2 mt-1" (click)="deleteProject(project.projectID)">
-          <i class="material-icons">delete</i>
-        </button>
+
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item [routerLink]="['/projects', project.projectID]">
+            <mat-icon>arrow_forward</mat-icon>
+            <span>View</span>
+          </button>
+          <button mat-menu-item [routerLink]="['/projects/edit', project.projectID]">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="deleteProject(project.projectID)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
       </div>
     </li>
   </ul>

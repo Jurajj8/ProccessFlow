@@ -5,6 +5,7 @@ import { Diagram } from 'gojs';
 import { ActivatedRoute } from '@angular/router';
 import { Project, ProjectService } from '../../../services/project.service';
 import { DiagramService } from '../../../services/diagram.service';
+import { Station, StationService } from '../../../services/station.service';
 
 @Component({
   selector: 'app-project-schema',
@@ -16,8 +17,10 @@ export class ProjectSchemaComponent implements AfterViewInit, OnInit {
   private file: string | undefined;
   assemblyLines: AssemblyLine[] = [];
   project: Project | undefined;
+  stations: Station[] = [];
   constructor(
     private assemblyLineService: AssemblyLineService,
+    private stationService: StationService,
     private projectService: ProjectService,
     private diagramService: DiagramService,
     private route: ActivatedRoute
@@ -26,11 +29,24 @@ export class ProjectSchemaComponent implements AfterViewInit, OnInit {
   ngOnInit() {
     const projectID = Number(this.route.snapshot.paramMap.get('projectID'));
     this.loadProject(projectID);
-    this.assemblyLineService.getAssemblyLineByProject(projectID).subscribe(data => {
-      console.log('Data received:', data);
-      this.assemblyLines = data;
+    this.loadAssemblyLinesAndStations(projectID);
+  }
+
+  loadAssemblyLinesAndStations(projectID: number) {
+    this.assemblyLineService.getAssemblyLineByProject(projectID).subscribe((assemblyLines) => {
+      this.assemblyLines = assemblyLines;
+      this.stations = []; 
+
+      assemblyLines.forEach(al => {
+        this.stationService.getStationByAssemblyLine(al.lineID).subscribe((stations) => {
+          this.stations.push(...stations);
+          console.log('Stations loaded for assembly line', al.lineID, ':', stations);
+        }, error => {
+          console.error('Error loading stations for assembly line', al.lineID, ':', error);
+        });
+      });
     }, error => {
-      console.error('Error fetching data:', error);
+      console.error('Error loading assembly lines:', error);
     });
   }
 
@@ -81,12 +97,15 @@ export class ProjectSchemaComponent implements AfterViewInit, OnInit {
 
   setupDragAndDrop() {
     const assemblyLinesDiv = document.getElementById('assemblyLinesDiv');
+    const stationsDiv = document.getElementById('stationsDiv');
     const diagramDiv = document.getElementById('myDiagramDiv');
 
     if (assemblyLinesDiv && diagramDiv) {
       assemblyLinesDiv.addEventListener('dragstart', (event: DragEvent) => {
         if (event.target && (event.target as HTMLElement).classList.contains('assemblyLine')) {
           event.dataTransfer?.setData('text', (event.target as HTMLElement).dataset['name'] || '');
+          event.dataTransfer?.setData('type', 'assemblyLine');
+          console.log('Drag started for assembly line:', (event.target as HTMLElement).dataset['name']);
         }
       });
 
@@ -97,9 +116,54 @@ export class ProjectSchemaComponent implements AfterViewInit, OnInit {
       diagramDiv.addEventListener('drop', (event: DragEvent) => {
         event.preventDefault();
         const name = event.dataTransfer?.getData('text');
-        if (name) {
+        const type = event.dataTransfer?.getData('type');
+        console.log('Drop event:', { name, type });
+        if (name && type) {
           const point = this.diagram.transformViewToDoc(new go.Point(event.offsetX, event.offsetY));
-          this.diagram.model.addNodeData({ key: name, name: name, color: 'lightblue', loc: go.Point.stringify(point) });
+          console.log('Point:', point);
+          this.diagram.startTransaction('add node');
+          if (!this.diagram.model.findNodeDataForKey(name)) {
+            const color = type === 'assemblyLine' ? 'lightblue' : 'green';
+            console.log('Adding node:', { key: name, name: name, color: color, loc: go.Point.stringify(point) });
+            this.diagram.model.addNodeData({ key: name, name: name, color: color, loc: go.Point.stringify(point) });
+          } else {
+            console.log('Node already exists:', name);
+          }
+          this.diagram.commitTransaction('add node');
+        }
+      });
+    }
+
+    if (stationsDiv && diagramDiv) {
+      stationsDiv.addEventListener('dragstart', (event: DragEvent) => {
+        if (event.target && (event.target as HTMLElement).classList.contains('station')) {
+          event.dataTransfer?.setData('text', (event.target as HTMLElement).dataset['name'] || '');
+          event.dataTransfer?.setData('type', 'station');
+          console.log('Drag started for station:', (event.target as HTMLElement).dataset['name']);
+        }
+      });
+
+      diagramDiv.addEventListener('dragover', (event: DragEvent) => {
+        event.preventDefault();
+      });
+
+      diagramDiv.addEventListener('drop', (event: DragEvent) => {
+        event.preventDefault();
+        const name = event.dataTransfer?.getData('text');
+        const type = event.dataTransfer?.getData('type');
+        console.log('Drop event:', { name, type });
+        if (name && type) {
+          const point = this.diagram.transformViewToDoc(new go.Point(event.offsetX, event.offsetY));
+          console.log('Point:', point);
+          this.diagram.startTransaction('add node');
+          if (!this.diagram.model.findNodeDataForKey(name)) {
+            const color = type === 'assemblyLine' ? 'lightblue' : 'green';
+            console.log('Adding node:', { key: name, name: name, color: color, loc: go.Point.stringify(point) });
+            this.diagram.model.addNodeData({ key: name, name: name, color: color, loc: go.Point.stringify(point) });
+          } else {
+            console.log('Node already exists:', name);
+          }
+          this.diagram.commitTransaction('add node');
         }
       });
     }
@@ -112,18 +176,16 @@ export class ProjectSchemaComponent implements AfterViewInit, OnInit {
       console.log('Saving diagram with data:', diagramData);
 
       if (this.project.diagramId) {
-        // Update existing diagram
         this.diagramService.updateDiagram(this.project.diagramId, diagramData).subscribe(response => {
           console.log('Diagram updated:', response);
         }, error => {
           console.error('Error updating diagram:', error);
         });
       } else {
-        // Save new diagram
         this.diagramService.saveDiagram(diagramData).subscribe(response => {
           console.log('Diagram saved:', response);
-          if (this.project) { // Add null check here
-            this.project.diagramId = response.id; // Store the diagram ID
+          if (this.project) { 
+            this.project.diagramId = response.id; 
           }
         }, error => {
           console.error('Error saving diagram:', error);

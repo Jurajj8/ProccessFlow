@@ -7,7 +7,7 @@
           <mat-panel-title> Assembly Lines </mat-panel-title>
         </mat-expansion-panel-header>
         <div id="assemblyLinesDiv" class="component-list">
-          <div *ngFor="let line of assemblyLines" class="assemblyLine" draggable="true" [attr.data-name]="line.name">
+          <div *ngFor="let line of assemblyLines" class="assemblyLine" draggable="true" [attr.data-name]="line.name" data-type="assemblyLine">
             {{ line.name }}
           </div>
         </div>
@@ -16,13 +16,13 @@
     <mat-accordion>
       <mat-expansion-panel hideToggle>
         <mat-expansion-panel-header>
-          <mat-panel-title> Components </mat-panel-title>
+          <mat-panel-title> Stations </mat-panel-title>
         </mat-expansion-panel-header>
-        <!--<div id="assemblyLinesDiv" class="component-list">
-          <div *ngFor="let line of assemblyLines" class="assemblyLine" draggable="true" [attr.data-name]="line.name">
-            {{ line.name }}
+        <div id="stationsDiv" class="component-list">
+          <div *ngFor="let station of stations" class="station" draggable="true" [attr.data-name]="station.name" data-type="station">
+            {{ station.name }}
           </div>
-        </div>-->
+        </div>
       </mat-expansion-panel>
     </mat-accordion>
     <button class="btn btn-primary" (click)="save()">Save Diagram</button>

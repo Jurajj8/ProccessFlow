@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AngularApp1.Server.Controllers
 {
-    [Authorize(Policy = "AdminOnly")]
     [ApiController]
     [Route("api/[controller]")]
     public class ImagesController : ControllerBase
@@ -64,7 +63,7 @@ namespace AngularApp1.Server.Controllers
                 ImagePath = $"/uploads/{file.FileName}"
             };
 
-            _context.Images.Add(image);
+            _context.Image.Add(image);
             await _context.SaveChangesAsync();
 
             Console.WriteLine($"Image added to database: {image.ImageID}, {image.Name}, {image.ImagePath}");
@@ -89,7 +88,7 @@ namespace AngularApp1.Server.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetImage(int id)
         {
-            var image = await _context.Images.FindAsync(id);
+            var image = await _context.Image.FindAsync(id);
             if (image == null)
             {
                 return NotFound();
@@ -110,7 +109,7 @@ namespace AngularApp1.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteImage(int id)
         {
-            var image = await _context.Images.FindAsync(id);
+            var image = await _context.Image.FindAsync(id);
             if (image == null)
             {
                 return NotFound();
@@ -123,7 +122,7 @@ namespace AngularApp1.Server.Controllers
                 _context.Users.Update(user);
             }
 
-            _context.Images.Remove(image);
+            _context.Image.Remove(image);
 
             try
             {

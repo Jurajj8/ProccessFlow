@@ -1,26 +1,59 @@
 form {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 450px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .mat-mdc-form-field {
-    width: 25%;
+  width: 100%;
 }
 
-.center{
-    text-align: center;
+.center {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
 }
 
-.buttons-container{
-    display: inline-flex;
-    justify-content: space-around;
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.error-message{
-    text-align: center;
-    color: red;
-    margin-bottom: 15px;
+button[mat-flat-button] {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  text-transform: uppercase;
+  transition: 0.3s ease;
+}
+
+  button[mat-flat-button]:hover {
+    background-color: #0056b3;
+  }
+
+a[mat-stroked-button] {
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.error-message {
+  text-align: center;
+  color: #d9534f;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 5px 0;
 }
